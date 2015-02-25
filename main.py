@@ -69,7 +69,59 @@ xo = 206
 yo = 309
 ro = 59
 
-def solve():
+def solve_general():
+    A = numpy.matrix([[0, 0, 0],])
+    A = numpy.delete(A, (0), axis=0)
+    B = numpy.matrix([[0, 0],])
+    B = numpy.delete(B, (0), axis=0)
+    W = numpy.matrix([[0],])
+    W = numpy.delete(W, (0), axis=0)
+    i = 1
+    for point in points:
+        x_prov = -2 * (point.x - xo)
+        y_prov = -2 * (point.y - yo)
+        r_prov = 2 * ro
+        x_obs = 2 * (point.x - xo)
+        y_obs = 2 * (point.y - yo)
+        a_row = [x_prov, y_prov, r_prov]
+        A = numpy.vstack([A, a_row])
+        w_row = ((point.x - xo)**2) + ((point.y - yo)**2) - (ro**2)
+        W = numpy.vstack([W, w_row])
+
+        b_row = []
+        if i == 1:
+            b_row = [x_obs, y_obs]
+            B = numpy.vstack([B, b_row])
+        else:
+            b_row = [0] * ((i * 2) -2)
+            B = numpy.vstack([B, b_row])
+            b_col = [[0]] * (i - 1)
+            b_col.append([x_obs])
+            B = numpy.hstack((B, b_col))
+            b_col[-1] = [y_obs]
+            B = numpy.hstack((B, b_col))
+        i += 1
+    X = - (A.T*(B*B.T).I*A).I * A.T * (B*B.T)*W
+    return X
+
+
+for i in range(2):
+    X = solve_general()
+    print(X)
+    xo += X.item(0,0)
+    yo += X.item(0,1)
+    ro += X.item(0,2)
+    
+            
+ 
+        
+    
+
+
+exit()
+
+
+def solve_parametric():
     A = numpy.matrix([[0, 0, 0],])
     A = numpy.delete(A, (0), axis=0)
     L = numpy.matrix([[0],])
@@ -93,7 +145,7 @@ A = None
 X = None
 L = None
 for i in range(7):
-    sol = solve()
+    sol = solve_parametric()
     A = sol[0]
     X = sol[1]
     L = sol[2]  
