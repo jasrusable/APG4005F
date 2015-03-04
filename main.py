@@ -4,6 +4,26 @@ import numpy
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
+class Solution(object):
+    a = None
+    x = None
+    w = None
+    b = None
+    k = None
+    reference_variance = None
+    var_covar_x = None
+    v = None
+
+    def __init__(self, a, x, w, b, k, v, reference_variance, var_covar_x):
+        self.a = a
+        self.x = x
+        self.w = w
+        self.b = b
+        self.k = k
+        self.v = v
+        self.reference_variance = reference_variance
+        self.var_covar_x = var_covar_x
+    
 class Point(object):
     x = None
     y = None
@@ -72,10 +92,12 @@ def get_list_of_points_from_file(path='random_points.csv'):
         z = parts[2].strip(' ')
         list_of_points.append(Point(x,y,z))
     return list_of_points
-
+    
 def solve_general(list_of_points, xo, yo, zo, ro):
     a_width = 4
     b_width = 3
+    number_of_observations = len(list_of_points)
+    number_of_unknowns = 4
     A = numpy.matrix([[0] * a_width,])
     A = numpy.delete(A, (0), axis=0)
     B = numpy.matrix([[0] * b_width,])
@@ -118,28 +140,37 @@ def solve_general(list_of_points, xo, yo, zo, ro):
         
     M = B*B.T
     X = - (A.T*(M).I*A).I * A.T * (M).I*W
-    return X, B, A, W
+    k = -M.I * ( A * X + W)
+    v = B.T * k
+    # Reference variance.
+    reference_variance = float((v.T * v) / number_of_observations - number_of_unknowns)
+    # Variance-Covariance Matrix of the Unknowns x
+    var_covar_x = reference_variance * (A.T *(M.I)*A).I
+    solution = Solution(
+        w=W,
+        x=X,
+        b=B,
+        a=A,
+        k=k,
+        v=v,
+        reference_variance=reference_variance,
+        var_covar_x=var_covar_x,
+        )
+    return solution
 
 list_of_points = get_list_of_points_from_file()
-plot_list_of_points(list_of_points)
+#plot_list_of_points(list_of_points)
 
 xo = 0
 yo = 0
 zo = 0
 ro = 100
 
-for i in range(10):
-    X, B, A, W = solve_general(list_of_points, xo, yo, zo, ro)
-    xo += X.item(0,0)
-    yo += X.item(1,0)
-    zo += X.item(2,0)
-    ro += X.item(3,0)
-
+for i in range(1):
+    solution = solve_general(list_of_points, xo, yo, zo, ro)
+    xo += solution.x.item(0,0)
+    yo += solution.x.item(1,0)
+    zo += solution.x.item(2,0)
+    ro += solution.x.item(3,0)
 
 print (xo, yo, zo, ro)      
- 
-        
-
-
-
-
