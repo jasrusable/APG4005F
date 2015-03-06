@@ -32,8 +32,13 @@ class Point(object):
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
+
     def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
         return "point<x:{0}><y:{1}><z:{2}>".format(self.x, self.y, self.z)
+        
 
 def plot_list_of_points(list_of_points):
     x, y, z = [], [], []
@@ -174,3 +179,9 @@ for i in range(1):
     ro += solution.x.item(3,0)
 
 print (xo, yo, zo, ro)      
+ 
+        
+
+
+
+
