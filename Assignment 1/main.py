@@ -165,6 +165,7 @@ def solve_general(list_of_points, xo, yo, zo, ro):
 
 list_of_points = get_list_of_points_from_file()
 #plot_list_of_points(list_of_points)
+#generate_file_from_list_of_points(generate_list_of_points(n=500))
 
 xo = 0
 yo = 0
@@ -178,10 +179,6 @@ for i in range(1):
     zo += solution.x.item(2,0)
     ro += solution.x.item(3,0)
 
-print (xo, yo, zo, ro)      
- 
-        
-
-
+print (xo, yo, zo, ro)
 
 
