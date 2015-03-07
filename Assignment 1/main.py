@@ -163,7 +163,7 @@ def solve_general(list_of_points, xo, yo, zo, ro):
         )
     return solution
 
-list_of_points = get_list_of_points_from_file()
+list_of_points = get_list_of_points_from_file('data_assignment1.csv')
 #plot_list_of_points(list_of_points)
 #generate_file_from_list_of_points(generate_list_of_points(n=500))
 
