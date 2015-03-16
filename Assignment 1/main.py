@@ -167,12 +167,14 @@ list_of_points = get_list_of_points_from_file('data_assignment1.csv')
 #plot_list_of_points(list_of_points)
 #generate_file_from_list_of_points(generate_list_of_points(n=500))
 
-xo = 0
-yo = 0
-zo = 0
-ro = 100
+xo = 2
+yo = 2
+zo = -2
+ro = 40
 
-for i in range(1):
+solution = None
+
+for i in range(5):
     solution = solve_general(list_of_points, xo, yo, zo, ro)
     xo += solution.x.item(0,0)
     yo += solution.x.item(1,0)
@@ -180,5 +182,28 @@ for i in range(1):
     ro += solution.x.item(3,0)
 
 print (xo, yo, zo, ro)
+
+from scipy.stats import chi2
+
+
+def chi_squared():
+    population_variance = 3 * (3/1000)**2
+    sample_variance = float(solution.var_covar_x.item(3,3))
+    df = len(solution.a) * 3 - (4 * 3)
+
+    test = df * (sample_variance / population_variance)
+
+    sig_level = float(input('Input desired significance level: ')
+
+    mean, variance, skew, kurt = chi2.stats(df, moments='mvsk')
+
+    result = chi2.ppf((1 - sig_level), df)
+
+    if test > result:
+        return 'Reject at level {0}'.format(sig_level)
+    else:
+        return 'Fail to reject at level {0}'.format(sig_level)
+
+chi_squared()
 
 
