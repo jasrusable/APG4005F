@@ -167,18 +167,15 @@ list_of_points = get_list_of_points_from_file('data_assignment1.csv')
 #plot_list_of_points(list_of_points)
 #generate_file_from_list_of_points(generate_list_of_points(n=500))
 
-xo = 0
-yo = 0
-zo = 0
-ro = 100
+xo = 2
+yo = 2
+zo = -2
+ro = 40
 
 solution = None
-<<<<<<< HEAD
-for i in range(1):
-=======
 
-for i in range(5):
->>>>>>> origin/master
+for i in range(1):
+
     solution = solve_general(list_of_points, xo, yo, zo, ro)
     xo += solution.x.item(0,0)
     yo += solution.x.item(1,0)
@@ -190,7 +187,7 @@ for i in range(5):
 print (xo, yo, zo, ro)
 
 from scipy.stats import chi2
-<<<<<<< HEAD
+
 def chi_squared():
     population_variance = 3 * ((3/1000)**2)
     sample_variance = solution.var_covar_x.item(3,3)
@@ -207,9 +204,7 @@ def chi_squared():
     else:
         print("Fail to reject")
 
-chi_squared()
-    
-=======
+
 
 
 def chi_squared():
@@ -231,6 +226,6 @@ def chi_squared():
         return 'Fail to reject at level {0}'.format(sig_level)
 
 chi_squared()
->>>>>>> origin/master
+
 
 
