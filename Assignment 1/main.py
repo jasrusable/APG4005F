@@ -173,7 +173,12 @@ zo = 0
 ro = 100
 
 solution = None
+<<<<<<< HEAD
 for i in range(1):
+=======
+
+for i in range(5):
+>>>>>>> origin/master
     solution = solve_general(list_of_points, xo, yo, zo, ro)
     xo += solution.x.item(0,0)
     yo += solution.x.item(1,0)
@@ -185,6 +190,7 @@ for i in range(1):
 print (xo, yo, zo, ro)
 
 from scipy.stats import chi2
+<<<<<<< HEAD
 def chi_squared():
     population_variance = 3 * ((3/1000)**2)
     sample_variance = solution.var_covar_x.item(3,3)
@@ -203,5 +209,28 @@ def chi_squared():
 
 chi_squared()
     
+=======
+
+
+def chi_squared():
+    population_variance = 3 * (3/1000)**2
+    sample_variance = float(solution.var_covar_x.item(3,3))
+    df = len(solution.a) * 3 - (4 * 3)
+
+    test = df * (sample_variance / population_variance)
+
+    sig_level = float(input('Input desired significance level: ')
+
+    mean, variance, skew, kurt = chi2.stats(df, moments='mvsk')
+
+    result = chi2.ppf((1 - sig_level), df)
+
+    if test > result:
+        return 'Reject at level {0}'.format(sig_level)
+    else:
+        return 'Fail to reject at level {0}'.format(sig_level)
+
+chi_squared()
+>>>>>>> origin/master
 
 
