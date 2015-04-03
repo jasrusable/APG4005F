@@ -27,24 +27,27 @@ def get_list_of_points_from_file(path='points.csv', delim=','):
         )
     return list_of_points
 
-def get_list_of_observations_from_file(path='observations.csv', delim=',',
-    distance_units='meters', direction_format='dd:mm:ss'):
+def get_list_of_observations_from_file(path='observations.csv', delim=','):
     f = open(path, 'r')
     list_of_observations = []
     for line in f.readlines():
         line = line.strip('\n')
         parts = line.split(delim)
         type_ = parts[0]
-        from_point = parts[1]
-        to_point = parts[2]
+        from_point_name = parts[1]
+        to_point_name = parts[2]
         direction = parts[3]
         distance = parts[4]
         if direction:
             radians = utils.to_radians(format_="dms", delim='.', value=direction)
-            dir_obs = DirectionObservation(from_point=from_point, to_point=to_point, radians=radians)
+            dir_obs = DirectionObservation(from_point_name=from_point_name,
+                to_point_name=to_point_name,
+                radians=radians)
             list_of_observations.append(dir_obs)
         if distance:
             meters = distance
-            dist_obs = DistanceObservation(from_point=from_point, to_point=to_point, meters=meters)
+            dist_obs = DistanceObservation(from_point_name=from_point_name,
+                to_point_name=to_point_name,
+                meters=meters)
             list_of_observations.append(dist_obs)
     return list_of_observations
