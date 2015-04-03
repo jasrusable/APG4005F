@@ -1,3 +1,4 @@
+import utils
 from points import Point
 from observations import DistanceObservation, DirectionObservation
 
@@ -36,12 +37,14 @@ def get_list_of_observations_from_file(path='observations.csv', delim=',',
         type_ = parts[0]
         from_point = parts[1]
         to_point = parts[2]
-        radians = parts[3]
-        meters = parts[4]
-        if radians:
+        direction = parts[3]
+        distance = parts[4]
+        if direction:
+            radians = utils.to_radians(format_="dms", delim='.', value=direction)
             dir_obs = DirectionObservation(from_point=from_point, to_point=to_point, radians=radians)
             list_of_observations.append(dir_obs)
-        if meters:
+        if distance:
+            meters = distance
             dist_obs = DistanceObservation(from_point=from_point, to_point=to_point, meters=meters)
             list_of_observations.append(dist_obs)
     return list_of_observations

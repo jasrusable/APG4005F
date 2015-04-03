@@ -1,9 +1,9 @@
 import math
 import numpy
 import logging
-
 from random import randint
 
+import utils
 from points import Point
 from observations import DistanceObservation, DirectionObservation
 from file import get_list_of_points_from_file, get_list_of_observations_from_file
