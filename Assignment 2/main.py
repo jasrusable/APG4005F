@@ -27,4 +27,3 @@ def write_pseudo_observations_to_file(points, path='observations.csv'):
 
 list_of_points = get_list_of_points_from_file('points.csv')
 list_of_observations = get_list_of_observations_from_file('observations.csv')
-plot_list_of_points(list_of_points)
