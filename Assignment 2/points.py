@@ -1,5 +1,5 @@
 
-    
+
 class Point(object):
     def __init__(self, type_=None, name=None, x=None, y=None, z=0):
         self.type_ = type_
@@ -12,4 +12,4 @@ class Point(object):
         return repr(self)
 
     def __repr__(self):
-        return "point<x:{0}><y:{1}><z:{2}>".format(self.x, self.y, self.z)
+        return "(Point x:{0} y:{1} z:{2})".format(self.x, self.y, self.z)
