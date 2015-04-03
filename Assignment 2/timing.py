@@ -22,12 +22,3 @@ class log_timing(object):
     def __exit__(self, type, value, traceback):
         dt = datetime.datetime.now() - self.now
         self.logger.error("%s - %s" % (self.task_name, dt))
-
-
-
-
-
-
-
-
-

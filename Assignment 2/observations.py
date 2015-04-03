@@ -15,13 +15,3 @@ class DirectionObservation(Observation):
         Observation.__init__(self, to_point=to_point, from_point=from_point)
         self.value = value
 
-
-
-
-
-
-
-
-
-
-
