@@ -2,14 +2,10 @@ from points import Point
 from observations import DistanceObservation, DirectionObservation
 
 
-def generate_file_from_list_of_points(list_of_points=None, path='output_file.csv'):
+def generate_file_from_list_of_points(list_of_points=None, path='output_file.csv', delim=','):
     f = open(path, 'w')
     for point in list_of_points:
-        x = point.x
-        y = point.y
-        z = point.z
-        line = str(x) + ", " + str(y) + ", " + str(z) + "\n"
-        f.write(line)
+        f.write(delim.join([str(point.x), str(point.y), str(point.z)]) + "\n")
     f.close()
 
 def get_list_of_points_from_file(path='points.csv', delim=','):
