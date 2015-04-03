@@ -2,14 +2,13 @@ from random import randint
 import math
 import numpy
 import logging
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 from points import Point
 from observations import DistanceObservation, DirectionObservation
 
 
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
 
 
 def plot_list_of_points(list_of_points):
@@ -17,7 +16,7 @@ def plot_list_of_points(list_of_points):
     for point in list_of_points:
         x.append(point.x)
         y.append(point.y)
-        z.append(point.z) 
+        z.append(point.z)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(x, y, z, c='r', marker='o')
@@ -36,7 +35,7 @@ def write_pseudo_observations_to_file(points, path='observations.csv'):
             if to_point != from_point:
                 pass
 
-def generate_file_from_list_of_points(list_of_points=None, path='output_file.csv'):  
+def generate_file_from_list_of_points(list_of_points=None, path='output_file.csv'):
     f = open(path, 'w')
     for point in list_of_points:
         x = point.x
@@ -82,18 +81,8 @@ def get_lists_of_observations_from_file(path='observations.csv', delim=','):
         if distance:
             dist_obs = DistanceObservation(from_point=from_point, to_point=to_point, value=value)
             list_of_distance_observations.append(dist_obs)
-        
+
 
 
 list_of_points = get_list_of_points_from_file('points.csv')
 plot_list_of_points(list_of_points)
-
-
-
-
-
-
-
-
-
-
