@@ -35,8 +35,8 @@ def get_list_of_observations_with_random_errors(list_of_observations):
     return list_of_errored_observations
 
 
-points = get_list_of_points_from_file('true_points.csv')
-observations = get_list_of_observations_from_file('true_observations.csv')
+points = get_list_of_points_from_file('data/true_points.csv')
+observations = get_list_of_observations_from_file('data/true_observations.csv')
 tainted_observations = get_list_of_observations_with_random_errors(observations)
-write_file_from_list_of_observations(observations, path='output_observations')
-write_file_from_list_of_observations(tainted_observations, path='error_output_observations')
+write_file_from_list_of_observations(observations, path='data/output_observations')
+write_file_from_list_of_observations(tainted_observations, path='data/error_output_observations')
