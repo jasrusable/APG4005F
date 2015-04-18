@@ -47,3 +47,4 @@ def write_pseudo_observations_to_file(points, path='observations.csv'):
 
 points = get_list_of_points_from_file('true_points.csv')
 observations = get_list_of_observations_from_file('true_observations.csv')
+write_file_from_list_of_observations(observations)

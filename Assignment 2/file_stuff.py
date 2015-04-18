@@ -1,6 +1,7 @@
 import utils
 from points import Point
 from observations import DistanceObservation, DirectionObservation
+from utils import to_dms
 
 
 def write_file_from_list_of_points(list_of_points=None, path='output_file.csv', delim=','):
@@ -16,7 +17,12 @@ def write_file_from_list_of_observations(list_of_observations, path='output_obse
             line_list.append(str(observation.from_point_name))
             line_list.append(str(observation.to_point_name))
             if isinstance(observation, DirectionObservation):
-                line_list.append(str(observation.radians))
+                line_list.append(to_dms(value=observation.radians, current_format_='rad', delim='.'))
+            elif isinstance(observation, DistanceObservation):
+                line_list.append(str(observation.meters))
+            else:
+                raise Exception('Unkown observation type.')
+            line_list.append('\n')
             f.write(delim.join(line_list))
 
 def get_list_of_points_from_file(path='points.csv', delim=','):

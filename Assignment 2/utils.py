@@ -1,18 +1,18 @@
 import math
 
 
-def to_dms(value, format_='rad', delim='.'):
-    dms = math.degrees(value)
-    if format_ == 'rad':
-        pass
-    elif format_ == 'deg':
-        pass
-    else:
-        raise Exception('Unknown format_ {0}'.format(format_))
+def to_dms(value, current_format_, delim):
+    dd = ''
+    if current_format_ == 'rad':
+        dd = math.degrees(value)
+    is_positive = dd >= 0
+    dd = abs(dd)
+    minutes,seconds = divmod(dd*3600,60)
+    degrees,minutes = divmod(minutes,60)
+    degrees = degrees if is_positive else -degrees
+    return delim.join(map(str, map(int, [degrees, minutes, seconds])))
 
 def to_radians(value, current_format_, delim):
-    if not value:
-        raise Exception('No value to convert to radians.')
     if current_format_ == 'dms':
         dms = value.split(delim)
         deg = float(dms[0])
@@ -22,7 +22,7 @@ def to_radians(value, current_format_, delim):
             radians = math.radians(-(abs(deg) + (min_ / 60) + (sec / 3600)))
         else:
         	radians = math.radians(deg + (min_ / 60) + (sec / 3600))
-    elif current_format_ == 'deg':
+    elif current_format_ == 'dd':
         radians =  math.radians(value)
     else:
         raise Exception('Unknown current_format_ {0}'.format(current_format_))
