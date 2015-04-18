@@ -3,11 +3,21 @@ from points import Point
 from observations import DistanceObservation, DirectionObservation
 
 
-def generate_file_from_list_of_points(list_of_points=None, path='output_file.csv', delim=','):
+def write_file_from_list_of_points(list_of_points=None, path='output_file.csv', delim=','):
     f = open(path, 'w')
     for point in list_of_points:
         f.write(delim.join([str(point.x), str(point.y), str(point.z)]) + "\n")
     f.close()
+
+def write_file_from_list_of_observations(list_of_observations, path='output_observations.csv', delim=','):
+    with open(path, 'w') as f:
+        for observation in list_of_observations:
+            line_list = []
+            line_list.append(str(observation.from_point_name))
+            line_list.append(str(observation.to_point_name))
+            if isinstance(observation, DirectionObservation):
+                line_list.append(str(observation.radians))
+            f.write(delim.join(line_list))
 
 def get_list_of_points_from_file(path='points.csv', delim=','):
     f = open(path, 'r')
@@ -39,7 +49,7 @@ def get_list_of_observations_from_file(path='observations.csv', delim=','):
         direction = parts[3]
         distance = parts[4]
         if direction:
-            radians = utils.to_radians(format_="dms", delim='.', value=direction)
+            radians = utils.to_radians(current_format_="dms", delim='.', value=direction)
             dir_obs = DirectionObservation(from_point_name=from_point_name,
                 to_point_name=to_point_name,
                 radians=radians)
