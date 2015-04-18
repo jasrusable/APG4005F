@@ -3,6 +3,7 @@ import numpy
 import logging
 import random
 import utils
+import copy
 from points import Point
 from observations import DistanceObservation, DirectionObservation
 from file_stuff import *
@@ -13,22 +14,18 @@ logger = logging.getLogger(__name__)
 
 
 def add_random_error_to_direction_observation(direction_observation):
-    if isinstance(direction_observation, DirectionObservation):
-        random_error = random.randint(-100, 100) * 0.01
-        observation.radians = observation.radians + random_error
-    else:
-        raise Exception('type of observation is not DirectionObservation')
-    return observation
+    direction_observation = copy.copy(direction_observation)
+    random_error = random.randint(-100, 100) * 0.000001
+    direction_observation.radians = direction_observation.radians + random_error        
+    return direction_observation
 
 def add_random_error_to_distance_observation(distance_observation):
-    if isinstance(distance_observation, DistanceObservation):
-        random_error = random.randint(-100, 100) * 0.05
-        observation.meters = observation.meters + random_error
-    else:
-        raise Exception('type of observation is not DistanceObservation')
-    return observation
+    distance_observation = copy.copy(distance_observation)
+    random_error = random.randint(-100, 100) * 0.001
+    distance_observation.meters = distance_observation.meters + random_error
+    return distance_observation
 
-def get_list_of_observations_with_random_errors(list_of_observations=None):
+def get_list_of_observations_with_random_errors(list_of_observations):
     list_of_errored_observations = []
     for observation in list_of_observations:
         if isinstance(observation, DirectionObservation):
@@ -38,13 +35,8 @@ def get_list_of_observations_with_random_errors(list_of_observations=None):
     return list_of_errored_observations
 
 
-def write_pseudo_observations_to_file(points, path='observations.csv'):
-    for from_point in points:
-        for to_point in points:
-            if to_point != from_point:
-                pass
-
-
 points = get_list_of_points_from_file('true_points.csv')
 observations = get_list_of_observations_from_file('true_observations.csv')
-write_file_from_list_of_observations(observations)
+tainted_observations = get_list_of_observations_with_random_errors(observations)
+write_file_from_list_of_observations(observations, path='output_observations')
+write_file_from_list_of_observations(tainted_observations, path='error_output_observations')
