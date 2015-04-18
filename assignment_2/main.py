@@ -32,6 +32,8 @@ def get_list_of_observations_with_random_errors(list_of_observations):
             list_of_errored_observations.append(add_random_error_to_direction_observation(observation))
         elif isinstance(observation, DistanceObservation):
             list_of_errored_observations.append(add_random_error_to_distance_observation(observation))
+        else:
+            raise Exception('Unknown observation type {0}: '.format(type(observation)))
     return list_of_errored_observations
 
 
