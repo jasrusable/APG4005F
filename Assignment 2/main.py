@@ -6,7 +6,7 @@ from random import randint
 import utils
 from points import Point
 from observations import DistanceObservation, DirectionObservation
-from file import get_list_of_points_from_file, get_list_of_observations_from_file
+from file_stuff import get_list_of_points_from_file, get_list_of_observations_from_file
 from plot import plot_list_of_points
 
 
