@@ -6,7 +6,7 @@ import utils
 import copy
 from points import Point
 from observations import DistanceObservation, DirectionObservation
-from file_stuff import *
+from file_io import *
 from plot import plot_list_of_points
 
 
