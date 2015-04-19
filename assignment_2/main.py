@@ -39,6 +39,73 @@ def get_list_of_observations_with_random_errors(list_of_observations):
 
 points = get_list_of_points_from_file('data/true_points.csv')
 observations = get_list_of_observations_from_file('data/true_observations.csv')
-tainted_observations = get_list_of_observations_with_random_errors(observations)
-write_file_from_list_of_observations(observations, path='data/output_observations.csv')
-write_file_from_list_of_observations(tainted_observations, path='data/error_output_observations.csv')
+
+def get_distance(coordinate1, coordinate2):
+    delta_y = coordinate2.y - coordinate1.y
+    delta_x = coordinate2.x - coordinate1.x
+    return math.sqrt((delta_y**2) + (delta_x**2))
+
+def get_direction(coordinate1, coordinate2):
+    delta_y = coordinate2.y - coordinate1.y
+    delta_x = coordinate2.x - coordinate1.x
+    direction = math.atan2(delta_y,delta_x)
+    if delta_x < 0 and delta_y > 0:
+        direction = direction 
+
+    elif delta_x < 0 and delta_y < 0:
+        direction = direction + math.pi
+
+    elif delta_x > 0 and delta_y < 0:
+        direction = direction + 2*math.pi
+
+    return direction
+
+def get_point_by_name(name, points):
+    wanted_point = None
+    for point in points:
+        if name == point.name:
+            wanted_point = point
+    if not wanted_point:
+        raise Exception('Point {0} not found.'.format(name))
+    return wanted_point
+
+def get_provisional_points(points):
+    provisional_points = []
+    for point in points:
+        if point.type_ == 'P':
+            provisional_points.append(point)
+    return provisional_points
+
+A = numpy.matrix([
+    [0,0,0,0],
+])
+A = numpy.delete(A, (0), axis=0)
+
+L = numpy.matrix([
+        [0],
+    ])
+L = numpy.delete(L, (0), axis=0)
+
+for observation in observations:
+    A_row = [0,0,0,0]
+    to_point = get_point_by_name(observation.to_point_name, points)
+    from_point = get_point_by_name(observation.from_point_name, points)
+    i = 0
+    for unknown_point in get_provisional_points(points):
+        d = get_distance(to_point, from_point)
+        y = -206264.8 * (to_point.x - from_point.x) / d**2
+        x = 206264.8 * (to_point.y - from_point.y) / d**2
+        x = int(x)
+        y = int(y)
+        if to_point == unknown_point:
+            A_row[i] = y
+            A_row[i+1] = x
+        elif from_point == unknown_point:
+            A_row[i] = y
+            A_row[i+1] = x
+        else:
+            pass
+        i += 2
+    A = numpy.vstack([A, A_row])
+
+print(A)
