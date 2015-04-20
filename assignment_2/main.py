@@ -8,6 +8,7 @@ from points import Point
 from observations import DistanceObservation, DirectionObservation
 from file_io import *
 from plot import plot_list_of_points
+import scipy.linalg as LA
 
 
 logger = logging.getLogger(__name__)
@@ -37,7 +38,8 @@ def get_list_of_observations_with_random_errors(list_of_observations):
     return list_of_errored_observations
 
 
-points = get_list_of_points_from_file('data/raw_points.csv')
+parametric_points = get_list_of_points_from_file('data/raw_parametric_points.csv')
+free_points = get_list_of_points_from_file('data/raw_free_points.csv')
 observations = get_list_of_observations_from_file('data/raw_observations.csv')
 
 def get_distance(coordinate1, coordinate2):
@@ -116,9 +118,15 @@ def solve_parametric(observations, points):
     return A, L
 
 
+pA, pL = solve_parametric(observations, parametric_points)
+pX = (pA.T*pA).I * pA.T * pL
+for i in range(3):
+    pA, pL = solve_parametric(observations, parametric_points)
+    pX = (pA.T*pA).I * pA.T * pL
+
 def solve_free(observations, points):
     A = numpy.matrix([
-        [0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0],
     ])
     A = numpy.delete(A, (0), axis=0)
     L = numpy.matrix([
@@ -135,7 +143,7 @@ def solve_free(observations, points):
             calculated = get_direction(from_point, to_point)
             L_row = [observed - calculated]
             i = 0
-            for unknown_point in points:
+            for unknown_point in get_provisional_points(points):
                 d = get_distance(to_point, from_point)
                 y = -(to_point.x - from_point.x) / d**2
                 x = (to_point.y - from_point.y) / d**2
@@ -152,4 +160,19 @@ def solve_free(observations, points):
             L = numpy.vstack([L, L_row])
 
     return A, L
+fA, fL = solve_free(observations, free_points)
+fATPA = fA.T*fA
 
+
+
+def get_G(ATPA):
+    eigs = LA.eigh(fATPA)
+    temp = []
+    for eigen_value, eigen_vector in zip(eigs[0], eigs[1]):
+        if round(eigen_value, 3) == 0.0:
+            temp.append(eigen_vector)
+    return numpy.matrix(temp)
+print(numpy.linalg.matrix_rank(fN))
+fG = get_G(fATPA)
+fN = fA.T*fA + fG*fG.T
+        
