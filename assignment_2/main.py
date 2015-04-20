@@ -37,8 +37,8 @@ def get_list_of_observations_with_random_errors(list_of_observations):
     return list_of_errored_observations
 
 
-points = get_list_of_points_from_file('data/true_points.csv')
-observations = get_list_of_observations_from_file('data/true_observations.csv')
+points = get_list_of_points_from_file('data/raw_points.csv')
+observations = get_list_of_observations_from_file('data/raw_observations.csv')
 
 def get_distance(coordinate1, coordinate2):
     delta_y = coordinate2.y - coordinate1.y
@@ -76,36 +76,80 @@ def get_provisional_points(points):
             provisional_points.append(point)
     return provisional_points
 
-A = numpy.matrix([
-    [0,0,0,0],
-])
-A = numpy.delete(A, (0), axis=0)
 
-L = numpy.matrix([
+
+def solve_parametric(observations, points):
+    A = numpy.matrix([
+        [0,0,0,0],
+    ])
+    A = numpy.delete(A, (0), axis=0)
+    L = numpy.matrix([
         [0],
     ])
-L = numpy.delete(L, (0), axis=0)
+    L = numpy.delete(L, (0), axis=0)
+    for observation in observations:
+        A_row = [0] * len(get_provisional_points(points)) * 2
+        L_row = [0]
+        to_point = get_point_by_name(observation.to_point_name, points)
+        from_point = get_point_by_name(observation.from_point_name, points)
+        if isinstance(observation, DirectionObservation):
+            observed = observation.radians
+            calculated = get_direction(from_point, to_point)
+            L_row = [observed - calculated]
+            i = 0
+            for unknown_point in get_provisional_points(points):
+                d = get_distance(to_point, from_point)
+                y = -(to_point.x - from_point.x) / d**2
+                x = (to_point.y - from_point.y) / d**2
+                if to_point == unknown_point:
+                    A_row[i] = y
+                    A_row[i+1] = x
+                elif from_point == unknown_point:
+                    A_row[i] = y
+                    A_row[i+1] = x
+                else:
+                    pass
+                i += 2
+            A = numpy.vstack([A, A_row])
+            L = numpy.vstack([L, L_row])
 
-for observation in observations:
-    A_row = [0,0,0,0]
-    to_point = get_point_by_name(observation.to_point_name, points)
-    from_point = get_point_by_name(observation.from_point_name, points)
-    i = 0
-    for unknown_point in get_provisional_points(points):
-        d = get_distance(to_point, from_point)
-        y = -206264.8 * (to_point.x - from_point.x) / d**2
-        x = 206264.8 * (to_point.y - from_point.y) / d**2
-        x = int(x)
-        y = int(y)
-        if to_point == unknown_point:
-            A_row[i] = y
-            A_row[i+1] = x
-        elif from_point == unknown_point:
-            A_row[i] = y
-            A_row[i+1] = x
-        else:
-            pass
-        i += 2
-    A = numpy.vstack([A, A_row])
+    return A, L
 
-print(A)
+
+def solve_free(observations, points):
+    A = numpy.matrix([
+        [0,0,0,0],
+    ])
+    A = numpy.delete(A, (0), axis=0)
+    L = numpy.matrix([
+        [0],
+    ])
+    L = numpy.delete(L, (0), axis=0)
+    for observation in observations:
+        A_row = [0] * len(get_provisional_points(points)) * 2
+        L_row = [0]
+        to_point = get_point_by_name(observation.to_point_name, points)
+        from_point = get_point_by_name(observation.from_point_name, points)
+        if isinstance(observation, DirectionObservation):
+            observed = observation.radians
+            calculated = get_direction(from_point, to_point)
+            L_row = [observed - calculated]
+            i = 0
+            for unknown_point in points:
+                d = get_distance(to_point, from_point)
+                y = -(to_point.x - from_point.x) / d**2
+                x = (to_point.y - from_point.y) / d**2
+                if to_point == unknown_point:
+                    A_row[i] = y
+                    A_row[i+1] = x
+                elif from_point == unknown_point:
+                    A_row[i] = y
+                    A_row[i+1] = x
+                else:
+                    pass
+                i += 2
+            A = numpy.vstack([A, A_row])
+            L = numpy.vstack([L, L_row])
+
+    return A, L
+
