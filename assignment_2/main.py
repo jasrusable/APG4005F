@@ -82,7 +82,7 @@ def get_provisional_points(points):
 
 def solve_parametric(observations, points):
     A = numpy.matrix([
-        [0,0,0,0],
+        [0,0,0,0,0,0],
     ])
     A = numpy.delete(A, (0), axis=0)
     L = numpy.matrix([
@@ -120,7 +120,7 @@ def solve_parametric(observations, points):
 
 pA, pL = solve_parametric(observations, parametric_points)
 pX = (pA.T*pA).I * pA.T * pL
-for i in range(3):
+for i in range(1):
     pA, pL = solve_parametric(observations, parametric_points)
     pX = (pA.T*pA).I * pA.T * pL
 
@@ -172,7 +172,7 @@ def get_G(ATPA):
         if round(eigen_value, 3) == 0.0:
             temp.append(eigen_vector)
     return numpy.matrix(temp)
-print(numpy.linalg.matrix_rank(fN))
+
 fG = get_G(fATPA)
 fN = fA.T*fA + fG*fG.T
         
