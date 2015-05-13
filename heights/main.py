@@ -8,8 +8,8 @@ from file_io import read_points, read_observations
 
 
 points = read_points(filepath='data/points.txt')
-observations = read_observations(type_='distance', known_points=points, filepath='data/dist_obs.txt')
-observations += read_observations(type_='direction', known_points=points, filepath='data/dir_obs.txt')
+#observations = read_observations(type_='distance', known_points=points, filepath='data/dist_obs.txt')
+observations = read_observations(type_='direction', known_points=points, filepath='data/dir_obs.txt')
 
 def get_model():
     from_x = sympy.Symbol('from_x')
@@ -29,9 +29,15 @@ def get_model():
 
 def get_A_row(model, observation, points):
     a_row = list()
+    print(observation)
     for point in points:
         if point.type_ == 'free':
-            pass
+            x_diff = sympy.diff(model, 'to_x')
+            y_diff = sympy.diff(model, 'to_y')
+            if point == observation.to:
+                print('is to point')
+            if point == observation.from_:
+                print('is from point')
 
 get_A_row(get_model(), observations[0], points)
 get_A_row(get_model(), observations[4], points)
