@@ -1,56 +1,37 @@
+import numpy
+import sympy
+
+from points import Point
+from observations import Observation
+from utils import to_radians
+from file_io import read_points, read_observations
 
 
+points = read_points(filepath='data/points.txt')
+observations = read_observations(type_='distance', known_points=points, filepath='data/dist_obs.txt')
+observations += read_observations(type_='direction', known_points=points, filepath='data/dir_obs.txt')
 
-class Point(object):
-	def __init__(self, name, type_, x, y, z):
-		self.name = name
-		self.type_ = type_
-		self.x = x
-		self.y = y
-		self.z = z
+def get_model():
+    from_x = sympy.Symbol('from_x')
+    from_y = sympy.Symbol('from_y')
+    from_z = sympy.Symbol('from_z')
+    to_x = sympy.Symbol('to_x')
+    to_y = sympy.Symbol('to_y')
+    to_z = sympy.Symbol('to_z')
+    orientation_correction = sympy.Symbol('orientation_correction')
+    true = sympy.Symbol('true')
+    sin = sympy.sin
+    cos = sympy.cos
+    tan = sympy.tan
+    atan = sympy.atan
+    hz_direction = atan((to_y - from_y)/(to_x - from_x)) - orientation_correction - true
+    return hz_direction
 
-class Observation(object):
-	def __init__(self, from_, to, type_, value):
-		self.from_ = from_
-		self.to = to
-		self.value = value
-		self.type_ = type_
+def get_A_row(model, observation, points):
+    a_row = list()
+    for point in points:
+        if point.type_ == 'free':
+            pass
 
-def read_points(filepath='points.txt', delim=','):
-	points = list()
-	with open (filepath, 'r') as f:
-		for line in f:
-			if line.startswith('#'):
-				continue
-			line_parts = line.split(delim)
-			name = line_parts[0]
-			type_ = line_parts[1]
-			x = line_parts[2]
-			y = line_parts[3]
-			z = line_parts[4]
-			points.append(Point(name, type_, x, y, z))
-	return points
-
-def read_observations(type_, known_points, filepath='obs.txt', delim=','):
-	assert(type_ in ['distance', 'direction'])
-	observations = list()
-	known_point_names = list()
-	for point in known_points:
-		known_point_names.append(point.name)
-	with open(filepath, 'r') as f:
-		for line in f:
-			if line.startswith('#'):
-				continue
-			line_parts = line.split(delim)
-			from_ = parts[0]
-			if from_ not in known_point_names:
-				raise Exception('{0} not defined in known_points.'.format(from_))
-			to = parts[1]
-			if to not in known_point_names:
-				raise Exception('{0} not defined in known_points.'.format(to))
-			value = parts[2]
-			observations.append(Observation(from_, to, type_, value))
-	return observations
-
-points = read_points(filepath='points.txt')
-read_observations(type_='distance', known_points=points, filepath='dist_obs.txt')
+get_A_row(get_model(), observations[0], points)
+get_A_row(get_model(), observations[4], points)
