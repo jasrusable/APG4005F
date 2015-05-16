@@ -49,16 +49,45 @@ The effect of holding no paramters fixed is that the shape of the network
 is defined only by the observations. One of the main advantages of not holding
 any paramters fixed is that the shape of the network is not affected by erros in
 the coordintes of the points defining the datum (because the network is not tied
-to the datum and is allowed to 'float'). Free netowkrs are espicially useful
+to the datum and is allowed to `float'). Free netowkrs are espicially useful
 in cases where precise surveys are connected to existing point coordiantes
 of lower preceions. A caveat of the free network adjustment is that because the
 datum is not defined (no points are fixed) a singular normal equation matrix
 will occur (a rank defect occurs in the normal equation matrix).
 As singular matrices have a determinant of zero (because one of the
 eigen values is zero) the normal equation matrix cannot be inversed, and so
-a solution vector 'x' cannot be obtained. In order to negate the singular normal
+a solution vector `x' cannot be obtained. In order to negate the singular normal
 equation matrix, special mathematical treatment based on the determinateion of a
-generalized inverse is applied.
+generalized inverse is applied. To remove the singularty in the normal equation
+matrix, a set of speudo-obseravtion equations are added to to the normal
+equation matrix in such a way that these equations remove the singularity and
+do not affect the result vector `x'.
+
+\subsection{Concepts of deformation analysis using geodetic methos}
+
+\subsubsection{Points selection}
+Points representing the feature to be monitoired are selected.
+The placement of deformation contol points must adhere to two criteria:
+The network configuration must follow the principles of conventional geodetic
+network design, and the selected points must be representitive of the feautre
+in question and points should be suitably placed so as to effectively detect and
+model any deformation.
+
+\subsubsection{Network}
+A netopwrk pre-analyisis based on the least squares adjustment theory should be
+undertaken. Then, a conventional netowkr of appropriate accuracy should be
+executed in at least two epochs. In terms of coordiante system to use, Local
+systems are adquate and preferable, as larger scale coordiante systems are
+usally of a poorer precision.
+
+\subsubsection{Deformation Models}
+One of a variety of avaliable deformation analyiss techniques based on statistical
+testing is used to detect if point deformations have occured. Often, a second
+method is employed to confirm the first analysis.
+
+\subsubsection{Inspection}
+The quantities and directions of deformations are determined.
+
 
 \section{Problem Statement}
 
