@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {2}Background}{2}
+\contentsline {subsection}{\numberline {2.1}Classification of Deformation Analysis}{2}
+\contentsline {subsection}{\numberline {2.2}Network Classifications}{2}
+\contentsline {section}{\numberline {3}Problem Statement}{3}
+\contentsline {section}{\numberline {4}Method}{3}
+\contentsline {section}{\numberline {5}Results}{3}
+\contentsline {section}{\numberline {6}Discussion}{3}
+\contentsline {section}{\numberline {7}Conclusion}{3}
