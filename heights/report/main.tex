@@ -20,69 +20,69 @@
 \newpage
 \section{Introduction}
 The aim of this assignment is to conduct an Epoch deformation analysis using
-ficticious data with a Free Network least squares adjustment.
+fictitious data with a Free Network least squares adjustment.
 
 
 \section{Background}
 \subsection{Classification of Deformation Analysis}
 There are three main classifications of deformation analysis monitoring methods,
-Permanent, Semi-permanet and Epoch. There are advantages and disadvatages of all
-three methods. The main advatages of the Permenatn and Semi-permanent methods
-are that they are continous and offer a very high precsion. These two methods
+Permanent, Semi-permanet and Epoch. There are advantages and disadvantages of all
+three methods. The main advantages of the permanent and Semi-permanent methods
+are that they are continuous and offer a very high precision. These two methods
 make use of a multitude of sensors, such as capacitive, strain, inductance and
-elctro-optical sensors. These sensors are able to produce data in realtime which
+electro-optical sensors. These sensors are able to produce data in real time which
 is useful for situations in which immediate data is required in order to, for
-example, raise an alarm. Some of the disadvatages of these two methods of
-deformation analyis is that the senors are expensive, and require regular
-calibration. Epoch monitoring involves geodetic and/or photogramerric techniqies
-to capture data, this is benefitial in that relative and/or absolut postions of
-many points can be obtained, as apposed to just relative postions in the case
+example, raise an alarm. Some of the disadvantages of these two methods of
+deformation analysis is that the senors are expensive, and require regular
+calibration. Epoch monitoring involves geodetic and/or photogramerric techniques
+to capture data, this is beneficial in that relative and/or absolute positions of
+many points can be obtained, as apposed to just relative positions in the case
 of the Permanent and Semi-permanent methods mentioned above. Another advantage
 of Epoch monitering is that it is much more cost effective.
 
 \subsection{Network Classifications}
 Typically, when constructing a network for Epoch deformation anaylis,
-a free or minimum constrained network is used, perferably free. In a free
-network adjustment, no paramter is held fixed, and as a result, precision
+a free or minimum constrained network is used, preferably free. In a free
+network adjustment, no parameter is held fixed, and as a result, precision
 estimates for all points are provided in the variance-covariance matrices.
-The effect of holding no paramters fixed is that the shape of the network
+The effect of holding no parameters fixed is that the shape of the network
 is defined only by the observations. One of the main advantages of not holding
-any paramters fixed is that the shape of the network is not affected by erros in
-the coordintes of the points defining the datum (because the network is not tied
-to the datum and is allowed to `float'). Free netowkrs are espicially useful
-in cases where precise surveys are connected to existing point coordiantes
-of lower preceions. A caveat of the free network adjustment is that because the
+any parameters fixed is that the shape of the network is not affected by erros in
+the coordinates of the points defining the datum (because the network is not tied
+to the datum and is allowed to `float'). Free networks are especially useful
+in cases where precise surveys are connected to existing point coordinates
+of lower precisions. A caveat of the free network adjustment is that because the
 datum is not defined (no points are fixed) a singular normal equation matrix
 will occur (a rank defect occurs in the normal equation matrix).
 As singular matrices have a determinant of zero (because one of the
 eigen values is zero) the normal equation matrix cannot be inversed, and so
 a solution vector `x' cannot be obtained. In order to negate the singular normal
-equation matrix, special mathematical treatment based on the determinateion of a
-generalized inverse is applied. To remove the singularty in the normal equation
-matrix, a set of speudo-obseravtion equations are added to to the normal
+equation matrix, special mathematical treatment based on the determination of a
+generalized inverse is applied. To remove the singularity in the normal equation
+matrix, a set of pseudo-obseravtion equations are added to to the normal
 equation matrix in such a way that these equations remove the singularity and
 do not affect the result vector `x'.
 
-\subsection{Concepts of deformation analysis using geodetic methos}
+\subsection{Concepts of deformation analysis using geodetic method}
 
 \subsubsection{Points selection}
-Points representing the feature to be monitoired are selected.
-The placement of deformation contol points must adhere to two criteria:
+Points representing the feature to be monitored are selected.
+The placement of deformation control points must adhere to two criteria:
 The network configuration must follow the principles of conventional geodetic
-network design, and the selected points must be representitive of the feautre
+network design, and the selected points must be representative of the feature
 in question and points should be suitably placed so as to effectively detect and
 model any deformation.
 
 \subsubsection{Network}
-A netopwrk pre-analyisis based on the least squares adjustment theory should be
-undertaken. Then, a conventional netowkr of appropriate accuracy should be
-executed in at least two epochs. In terms of coordiante system to use, Local
-systems are adquate and preferable, as larger scale coordiante systems are
-usally of a poorer precision.
+A network pre-analyisis based on the least squares adjustment theory should be
+undertaken. Then, a conventional network of appropriate accuracy should be
+executed in at least two epochs. In terms of coordinate system to use, Local
+systems are adequate and preferable, as larger scale coordinate systems are
+usually of a poorer precision.
 
 \subsubsection{Deformation Models}
-One of a variety of avaliable deformation analyiss techniques based on statistical
-testing is used to detect if point deformations have occured. Often, a second
+One of a variety of available deformation analysis techniques based on statistical
+testing is used to detect if point deformations have occurred. Often, a second
 method is employed to confirm the first analysis.
 
 \subsubsection{Inspection}
