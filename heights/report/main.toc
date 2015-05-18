@@ -13,4 +13,7 @@
 \contentsline {paragraph}{}{4}
 \contentsline {paragraph}{}{4}
 \contentsline {paragraph}{}{4}
+\contentsline {subsection}{\numberline {4.1}The Global Test}{4}
+\contentsline {subsection}{\numberline {4.2}Test for deformations}{4}
+\contentsline {subsection}{\numberline {4.3}Test for stable points}{4}
 \contentsline {section}{\numberline {5}Conclusion}{4}
